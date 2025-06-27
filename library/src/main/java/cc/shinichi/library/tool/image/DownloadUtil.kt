@@ -3,6 +3,7 @@ package cc.shinichi.library.tool.image
 import android.app.Activity
 import android.content.ContentValues
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.Handler
@@ -37,10 +38,10 @@ object DownloadUtil {
                 if (ImagePreview.instance.downloadListener != null) {
                     ImagePreview.instance.downloadListener?.onDownloadStart(context, currentItem)
                 } else {
-                    ToastUtil.instance.showShort(
-                        context,
-                        context.getString(R.string.toast_start_download)
-                    )
+//                    ToastUtil.instance.showShort(
+//                        context,
+//                        context.getString(R.string.toast_start_download)
+//                    )
                 }
                 super.onLoadStarted(placeholder)
             }
@@ -97,13 +98,7 @@ object DownloadUtil {
                 if (ImagePreview.instance.downloadListener != null) {
                     ImagePreview.instance.downloadListener?.onDownloadSuccess(context, currentItem)
                 } else {
-                    ToastUtil.instance.showShort(
-                        context,
-                        context.getString(
-                            R.string.toast_save_success,
-                            "$downloadFolderName/$name"
-                        )
-                    )
+                    ToastUtil.instance.showShort(context, context.getString(R.string.save_to_phone)+ Environment.DIRECTORY_PICTURES+"/$downloadFolderName/$name")
                 }
                 insertUri?.refresh(resolver)
             } catch (e: IOException) {
@@ -164,15 +159,15 @@ object DownloadUtil {
         if (ImagePreview.instance.downloadListener != null) {
             ImagePreview.instance.downloadListener?.onDownloadStart(context, currentItem)
         } else {
-            ToastUtil.instance.showShort(
-                context,
-                context.getString(R.string.toast_start_download)
-            )
+//            ToastUtil.instance.showShort(
+//                context,
+//                context.getString(R.string.toast_start_download)
+//            )
         }
         Thread {
             val saveDir = getAvailableCacheDir(context)?.absolutePath + File.separator + "video/"
             val fileFullName = System.currentTimeMillis().toString() + ".mp4"
-            val downloadFile = downloadFile(url, fileFullName, saveDir)
+            val downloadFile:File? = downloadFile(url, fileFullName, saveDir)
             Handler(Looper.getMainLooper()).post {
                 if (downloadFile != null && downloadFile.exists() && downloadFile.length() > 0) {
                     // 通过urlConn下载完成
@@ -205,7 +200,7 @@ object DownloadUtil {
             values.put(MediaStore.Video.Media.DESCRIPTION, name)
             values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4")
             values.put(MediaStore.Video.Media.RELATIVE_PATH, Environment.DIRECTORY_MOVIES + "/" + downloadFolderName + "/")
-            val insertUri = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values)
+            val insertUri:Uri? = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values)
             var inputStream: BufferedInputStream? = null
             var os: OutputStream? = null
             try {
@@ -224,10 +219,7 @@ object DownloadUtil {
                 } else {
                     ToastUtil.instance.showShort(
                         context,
-                        context.getString(
-                            R.string.toast_save_success,
-                            "$downloadFolderName/$name"
-                        )
+                        context.getString(R.string.save_to_phone)+Environment.DIRECTORY_MOVIES+"/"+"$downloadFolderName/$name"
                     )
                 }
                 insertUri?.refresh(resolver)
@@ -238,7 +230,7 @@ object DownloadUtil {
                 } else {
                     ToastUtil.instance.showShort(
                         context,
-                        context.getString(R.string.toast_save_failed)
+                        context.getString(R.string.download_failed_please_try_again)
                     )
                 }
             } finally {
@@ -264,7 +256,7 @@ object DownloadUtil {
                 } else {
                     ToastUtil.instance.showShort(
                         context,
-                        context.getString(R.string.toast_save_success, path)
+                        context.getString(R.string.save_to_phone)+path
                     )
                 }
                 SingleMediaScanner(context, path + name, object : SingleMediaScanner.ScanListener {

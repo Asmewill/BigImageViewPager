@@ -7,4 +7,7 @@
     <string name="toast_save_failed">保存失败</string>
     <string name="toast_save_success">成功保存到：%1$s</string>
     <string name="toast_deny_permission_save_failed">您拒绝了存储权限，下载失败！</string>
+
+    <string name="save_to_phone"  >保存至：</string>
+    <string name="download_failed_please_try_again"  >下载失败，请重试！</string>
 </resources>

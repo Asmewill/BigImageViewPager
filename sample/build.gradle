@@ -73,9 +73,9 @@ dependencies {
     implementation "com.github.zjupure:webpdecoder:2.3.4.14.2"
 
     // ExoPlayer https://developer.android.com/media/media3/exoplayer/hello-world?hl=zh-cn#groovy
-    implementation "androidx.media3:media3-exoplayer:1.4.1"
-    implementation "androidx.media3:media3-exoplayer-dash:1.4.1"
-    implementation "androidx.media3:media3-ui:1.4.1"
+//    implementation "androidx.media3:media3-exoplayer:1.4.1"
+//    implementation "androidx.media3:media3-exoplayer-dash:1.4.1"
+//    implementation "androidx.media3:media3-ui:1.4.1"
 
     // library
     // implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-8.2.2'

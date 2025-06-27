@@ -1,5 +1,6 @@
 package cc.shinichi.bigimageviewpager;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -78,15 +79,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        SwitchCompat switchClickClose = findViewById(R.id.switchClickClose);
-        SwitchCompat switchDragClose = findViewById(R.id.switchDragClose);
-        SwitchCompat switchUpDragClose = findViewById(R.id.switchUpDragClose);
-        SwitchCompat switchDragCloseIgnore = findViewById(R.id.switchDragCloseIgnore);
-        SwitchCompat switchShowIndicator = findViewById(R.id.switchShowIndicator);
-        SwitchCompat switchShowCloseButton = findViewById(R.id.switchShowCloseButton);
-        SwitchCompat switchShowDownButton = findViewById(R.id.switchShowDownButton);
-        SwitchCompat switchShowErrorToast = findViewById(R.id.switchShowErrorToast);
-        RadioGroup radioGroupStrategy = findViewById(R.id.radioGroupStrategy);
+        SwitchCompat switchClickClose = findViewById(R.id.switchClickClose);//点击图片关闭（默认开启
+        SwitchCompat switchDragClose = findViewById(R.id.switchDragClose);//下拉关闭（默认开启）
+        SwitchCompat switchUpDragClose = findViewById(R.id.switchUpDragClose);//上拉关闭（默认开启）
+        SwitchCompat switchDragCloseIgnore = findViewById(R.id.switchDragCloseIgnore);//手势关闭忽略缩放（默认开启）
+        SwitchCompat switchShowIndicator = findViewById(R.id.switchShowIndicator);//显示指示器（默认开启）
+        SwitchCompat switchShowCloseButton = findViewById(R.id.switchShowCloseButton);//显示关闭按钮（默认关闭）
+        SwitchCompat switchShowDownButton = findViewById(R.id.switchShowDownButton);//显示下载按钮（默认显示）
+        SwitchCompat switchShowErrorToast = findViewById(R.id.switchShowErrorToast);//显示加载失败的Toast（默认关闭）
+        RadioGroup radioGroupStrategy = findViewById(R.id.radioGroupStrategy);//加载策略
 
         switchClickClose.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         switchShowErrorToast.setChecked(showErrorToast);
-
+        //加载策略
         radioGroupStrategy.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -233,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
         mediaList.add(i);
 
         // ==============================================================================================================
-        // 一、最简单的调用：
+        // 一、最简单的调用：点我开始预览
         findViewById(R.id.buttonEasyUse).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -277,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // ==============================================================================================================
-        // 三、完全自定义调用：
+        // 三、完全自定义调用：使用上面配置预览
         findViewById(R.id.buttonPreview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -299,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
                         //.setImageList(List<String> imageList)
 
                         // 3：只有一张图片的情况，可以直接传入这张图片的url
-                        //.setImage(String image)
+                       // .setImage(String image)
                         //=================================================================================================
 
                         // 加载策略，默认为手动模式：默认普清，点击按钮再加载原图；会根据原图、缩略图url是否一样来判断是否显示查看原图按钮
@@ -408,6 +409,7 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         })
                                         .setNegativeButton("更新当前", new DialogInterface.OnClickListener() {
+                                            @SuppressLint("UnsafeOptInUsageError")
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 // 更新图片
