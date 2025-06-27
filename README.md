@@ -52,7 +52,7 @@ https://github.com/user-attachments/assets/070caa63-8e9f-4b11-9240-4cb56440d3c2
 ```
     dependencies {
         // 本框架
-        implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-8.2.2'
+        implementation 'com.github.Asmewill:BigImageViewPager:v1.0.0'
 
         // glide
         implementation 'com.github.bumptech.glide:glide:4.16.0'
