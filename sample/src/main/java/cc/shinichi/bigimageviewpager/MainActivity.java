@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,9 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -29,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cc.shinichi.bigimageviewpager.glide.GlideEngine;
+import cc.shinichi.bigimageviewpager.permission.PermissionInterceptor;
 import cc.shinichi.library.ImagePreview;
 import cc.shinichi.library.bean.ImageInfo;
 import cc.shinichi.library.bean.Type;
@@ -556,32 +561,64 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void chooseImage() {
-        PictureSelector.create(this)
-                .openGallery(SelectMimeType.ofAll())
-                .isWithSelectVideoImage(true)
-                .isDisplayCamera(false)
-                .setImageEngine(GlideEngine.createGlideEngine())
-                .forResult(new OnResultCallbackListener<LocalMedia>() {
+        XXPermissions.with(MainActivity.this)
+                .permission(Permission.MANAGE_EXTERNAL_STORAGE)
+                .interceptor(new PermissionInterceptor()).request(new OnPermissionCallback() {
                     @Override
-                    public void onResult(ArrayList<LocalMedia> result) {
-                        List<ImageInfo> mediaList = new ArrayList<>();
-                        for (LocalMedia localMedia : result) {
-                            ImageInfo imageInfo = new ImageInfo();
-                            if (localMedia.getMimeType().startsWith("video")) {
-                                imageInfo.setType(Type.VIDEO);
-                            } else if (localMedia.getMimeType().startsWith("image")) {
-                                imageInfo.setType(Type.IMAGE);
-                            }
-                            imageInfo.setThumbnailUrl(localMedia.getPath());
-                            imageInfo.setOriginUrl(localMedia.getPath());
-                            mediaList.add(imageInfo);
-                        }
-                        ImagePreview.getInstance().with(MainActivity.this).setMediaInfoList(mediaList).start();
+                    public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+                        //拍照
+                        XXPermissions.with(MainActivity.this).permission(Permission.CAMERA)
+                                .interceptor(new PermissionInterceptor(1)).request(new OnPermissionCallback() {
+                                    @Override
+                                    public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+                                       // MediaHelper.getInstance().cameraCrop(MainActivity.this, 800, 800);
+                                        PictureSelector.create(MainActivity.this)
+                                                .openGallery(SelectMimeType.ofAll())
+                                                .isWithSelectVideoImage(true)
+                                                .isDisplayCamera(true)
+                                                .setImageEngine(GlideEngine.createGlideEngine())
+                                                .forResult(new OnResultCallbackListener<LocalMedia>() {
+                                                    @Override
+                                                    public void onResult(ArrayList<LocalMedia> result) {
+                                                        List<ImageInfo> mediaList = new ArrayList<>();
+                                                        for (LocalMedia localMedia : result) {
+                                                            ImageInfo imageInfo = new ImageInfo();
+                                                            if (localMedia.getMimeType().startsWith("video")) {
+                                                                imageInfo.setType(Type.VIDEO);
+                                                            } else if (localMedia.getMimeType().startsWith("image")) {
+                                                                imageInfo.setType(Type.IMAGE);
+                                                            }
+                                                            imageInfo.setThumbnailUrl(localMedia.getPath());
+                                                            imageInfo.setOriginUrl(localMedia.getPath());
+                                                            mediaList.add(imageInfo);
+                                                        }
+                                                        ImagePreview.getInstance().with(MainActivity.this).setMediaInfoList(mediaList).start();
+                                                    }
+
+                                                    @Override
+                                                    public void onCancel() {
+                                                    }
+                                                });
+                                    }
+
+                                    @Override
+                                    public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+                                        OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
+                                       // DialogUtil.showGoSettingsDialog(getString(R.string.no_camera_permission_info),MainActivity.this);
+
+                                    }
+                                });
                     }
 
                     @Override
-                    public void onCancel() {
+                    public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+                        OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
+//                        if(Build.VERSION.SDK_INT<=29){
+//                            DialogUtil.showGoSettingsDialog(getString(R.string.no_storage_permission_info),MainActivity.this);
+//                        }
                     }
                 });
+
+
     }
 }

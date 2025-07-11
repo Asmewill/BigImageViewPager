@@ -1,3 +1,18 @@
-<resources>
+<resources  xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">BigImageViewPager</string>
+    <string name="no_storage_permission_info" tools:ignore="ExtraTranslation,MissingTranslation">你还没有开启存储权限，开启后即可查看相册照片。</string>
+    <string name="no_camera_permission_info" tools:ignore="ExtraTranslation,MissingTranslation">你还没有开启拍照权限，开启后即可拍照。</string>
+    <string name="permission_explain" tools:ignore="ExtraTranslation,MissingTranslation">权限使用说明</string>
+    <string name="refuse_you_also_can_use_other_service" tools:ignore="ExtraTranslation,MissingTranslation">拒绝或取消授权不影响使用其他功能。</string>
+    <string name="to_open" tools:ignore="ExtraTranslation,MissingTranslation">去打开</string>
+    <string name="common_permission_message_camera" tools:ignore="ExtraTranslation,MissingTranslation">应用需要申摄像头权限，以便您可以正常使用拍摄照片或视频以及预览功能。拒绝或取消授权不影响使用其他服务。</string>
+    <string name="common_permission_storage" tools:ignore="ExtraTranslation,MissingTranslation">存储权限</string>
+    <string name="common_permission_image_and_video" tools:ignore="ExtraTranslation,MissingTranslation">照片和视频权限</string>
+    <string name="common_permission_camera" tools:ignore="ExtraTranslation,MissingTranslation">摄像头权限</string>
+    <string name="common_permission_unknown" tools:ignore="ExtraTranslation,MissingTranslation">所有文件管理权限</string>
+    <string name="failed_to_obtain_storage_permission"  tools:ignore="MissingTranslation">存储权限获取失败</string>
+    <string name="please_open_call_phone_permission_in_settings"  tools:ignore="MissingTranslation">请在设置中打开拨打电话权限</string>
+    <string name="common_permission_message_storage" tools:ignore="ExtraTranslation,MissingTranslation">应用需要申请文件存储权限，以便您可以正常使用该功能。拒绝或取消授权不影响使用其他服务。</string>
+    <string name="common_permission_post_notifications" tools:ignore="ExtraTranslation,MissingTranslation">应用需要发送通知权限，以便您可以正常接收到推送通知。拒绝或取消授权不影响使用其他服务。</string>
+    <string name="text_common_cancel" tools:ignore="MissingTranslation">取消</string>
 </resources>

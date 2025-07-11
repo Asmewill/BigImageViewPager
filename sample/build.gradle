@@ -80,4 +80,5 @@ dependencies {
     // library
     // implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-8.2.2'
     implementation project(':library')
+    api 'com.github.getActivity:XXPermissions:18.5'
 }
